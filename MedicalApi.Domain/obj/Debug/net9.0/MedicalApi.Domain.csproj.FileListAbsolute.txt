@@ -1,0 +1,11 @@
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\bin\Debug\net9.0\MedicalApi.Domain.deps.json
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\bin\Debug\net9.0\MedicalApi.Domain.dll
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\bin\Debug\net9.0\MedicalApi.Domain.pdb
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.AssemblyInfoInputs.cache
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.AssemblyInfo.cs
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.csproj.CoreCompileInputs.cache
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.dll
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\refint\MedicalApi.Domain.dll
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\MedicalApi.Domain.pdb
+C:\Users\julia\OneDrive\Área de Trabalho\Projetos\medical\MedicalApi.Domain\obj\Debug\net9.0\ref\MedicalApi.Domain.dll
