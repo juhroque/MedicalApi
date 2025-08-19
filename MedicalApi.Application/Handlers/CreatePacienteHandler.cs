@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 using MediatR;
-using MedicalApi.Application.Features;
+using MedicalApi.Application.Features.Pacientes.Create;
 using MedicalApi.Application.Interfaces;
 using MedicalApi.Domain.Entities;
 

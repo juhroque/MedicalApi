@@ -1,8 +1,9 @@
 using MediatR;
+using MedicalApi.Application.Features.Usuarios.Update;
 
-namespace MedicalApi.Application.Features
+namespace MedicalApi.Application.Features.Usuarios.Create
 {
-    public class CreateUsuarioCommand : IRequest<Guid>
+    public class CreateUsuarioCommand : IRequest<UsuarioResponse>
     {
         public string Nome { get; set; }
         public string Sobrenome { get; set; }
@@ -11,7 +12,4 @@ namespace MedicalApi.Application.Features
         public string Senha { get; set; }
         public string? Telefone { get; set; }
     }
-
-
-    
 }

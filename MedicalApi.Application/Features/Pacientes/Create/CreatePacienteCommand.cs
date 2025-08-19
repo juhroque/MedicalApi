@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace MedicalApi.Application.Features
+namespace MedicalApi.Application.Features.Pacientes.Create
 {
     public class CreatePacienteCommand : IRequest<int>
     {

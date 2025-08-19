@@ -1,13 +1,15 @@
-using MedicalApi.Application.Features;
+using MedicalApi.Application.Features.Usuarios.Create;
 using MedicalApi.Application.Interfaces;
 using MedicalApi.Domain.Entities;
 using MediatR;
+using MedicalApi.Application.Features.Usuarios.Update;
+using MedicalApi.Application.Features.Usuarios;
 
 namespace MedicalApi.Application.Handlers
 {
     public class CreateUsuarioHandler(
         IUsuarioRepository usuarioRepository,
-        IPasswordHasherService passwordHasherService) : IRequestHandler<CreateUsuarioCommand, Guid>
+        IPasswordHasherService passwordHasherService) : IRequestHandler<CreateUsuarioCommand, UsuarioResponse>
     {
 
         // Dependências
@@ -16,7 +18,7 @@ namespace MedicalApi.Application.Handlers
         private readonly IPasswordHasherService _passwordHasherService = passwordHasherService;
 
         //cancellantion token é tipo um botao de panico pra cancelar 
-        public async Task<Guid> Handle(CreateUsuarioCommand request, CancellationToken cancellationToken)
+        public async Task<UsuarioResponse> Handle(CreateUsuarioCommand request, CancellationToken cancellationToken)
         {
             if(await VerifyExistingEmailOrCPF(request.Email, request.CPF)){
                 throw new Exception("Email ou CPF já existem");
@@ -35,7 +37,9 @@ namespace MedicalApi.Application.Handlers
                 Status = "Ativo",
             };
             await _usuarioRepository.CreateAsync(usuario);
-            return usuario.Id;
+
+            var response = new UsuarioResponse(usuario);
+            return response;
         }
 
         public async Task<bool> VerifyExistingEmailOrCPF(string email, string cpf){

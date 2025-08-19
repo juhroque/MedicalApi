@@ -1,4 +1,5 @@
 using MedicalApi.Application.Features;
+using MedicalApi.Application.Features.Usuarios.Create;
 using MedicalApi.Application.Interfaces;
 using MedicalApi.Infrastructure.Data;
 using MedicalApi.Infrastructure.Repositories;

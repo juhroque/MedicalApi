@@ -1,9 +1,8 @@
 using MediatR;
-using MedicalApi.Domain.Entities;
 
-namespace MedicalApi.Application.Features
+namespace MedicalApi.Application.Features.Usuarios.Update
 {
-    public class UpdateUsuarioCommand : IRequest<Usuario>
+    public class UpdateUsuarioCommand : IRequest<UsuarioResponse>
     {
         public Guid Id {get; set;}
         public string? Nome { get; set; }

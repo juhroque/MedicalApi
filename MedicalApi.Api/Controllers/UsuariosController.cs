@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
 using MediatR;
-using MedicalApi.Application.Features;
+using MedicalApi.Application.Features.Usuarios.Create;
+using MedicalApi.Application.Features.Usuarios.Update;
 using MedicalApi.Application.Queries;
+using MedicalApi.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalApi.Api.Controllers
@@ -20,10 +22,26 @@ namespace MedicalApi.Api.Controllers
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Create(CreateUsuarioCommand usuario)
         {
-            var novoUsuarioId = await _mediator.Send(usuario);
-            return CreatedAtAction(nameof(GetById), new { id = novoUsuarioId }, new { id = novoUsuarioId });
+            try
+            {
+                var novoUsuario = await _mediator.Send(usuario);
+                return Created($"usuarios/{novoUsuario.Id}", novoUsuario);
+            }
+            catch (EmailJaExisteException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (CpfJaExisteException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (BaseException ex)
+            {
+                return StatusCode(ex.StatusCode, new { message = ex.Message });
+            }
         }
 
         [HttpGet("{id:guid}")]
@@ -39,16 +57,32 @@ namespace MedicalApi.Api.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<IActionResult> Update([FromBody] UpdateUsuarioCommand novoUsuario, [FromRoute] Guid id){ //tem q adicioanr o fro, toure obrigatoriamente? o from body tb? se sim pq no create nao me disse rpa adicionar o from body
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> Update([FromBody] UpdateUsuarioCommand novoUsuario, [FromRoute] Guid id)
+        {
             try
             {
                 novoUsuario.Id = id;
                 var usuario = await _mediator.Send(novoUsuario);
                 return Ok(usuario);
             }
-            catch (Exception e)
+            catch (UsuarioNaoEncontradoException ex)
             {
-                return StatusCode(500, "Opps nao sei como padronizar excecoes");
+                return NotFound(new { message = ex.Message });
+            }
+            catch (EmailJaExisteException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (CpfJaExisteException ex)
+            {
+                return Conflict(new { message = ex.Message });
+            }
+            catch (BaseException ex)
+            {
+                return StatusCode(ex.StatusCode, new { message = ex.Message });
             }
         }
 
