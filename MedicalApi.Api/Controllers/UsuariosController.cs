@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using MediatR;
 using MedicalApi.Application.Features.Usuarios.Create;
+using MedicalApi.Application.Features.Usuarios.Delete;
 using MedicalApi.Application.Features.Usuarios.Update;
 using MedicalApi.Application.Queries;
 using MedicalApi.Domain.Exceptions;
@@ -11,14 +12,10 @@ namespace MedicalApi.Api.Controllers
 
     [ApiController]
     [Route("usuarios")]
-    public class UsuariosController : ControllerBase
+    public class UsuariosController(IMediator mediator) : ControllerBase
     {
-        public readonly IMediator _mediator;
+        public readonly IMediator _mediator = mediator;
 
-        public UsuariosController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -47,11 +44,12 @@ namespace MedicalApi.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var request = new GetUsuarioByIdQuery(){
+            var request = new GetUsuarioByIdQuery()
+            {
                 Id = id
             };
             var user = await _mediator.Send(request);
-            if(user is null)
+            if (user is null)
                 return NotFound();
             return Ok(user);
         }
@@ -79,6 +77,39 @@ namespace MedicalApi.Api.Controllers
             catch (CpfJaExisteException ex)
             {
                 return Conflict(new { message = ex.Message });
+            }
+            catch (BaseException ex)
+            {
+                return StatusCode(ex.StatusCode, new { message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] int page = 0,
+                [FromQuery] int pageSize = 25)
+        {
+            var request = new GetAllUsuariosQuery()
+            {
+                Page = page,
+                PageSize = pageSize
+            };
+
+            var users = await _mediator.Send(request);
+            return Ok(users);
+        }
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            try
+            {
+                var command = new DeleteUsuarioCommand { Id = id };
+                await _mediator.Send(command);
+                return NoContent();
+            }
+            catch (UsuarioNaoEncontradoException ex)
+            {
+                return NotFound(new { message = ex.Message });
             }
             catch (BaseException ex)
             {

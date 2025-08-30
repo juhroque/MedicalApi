@@ -6,6 +6,7 @@ namespace MedicalApi.Application.Interfaces
     {
         Task<Usuario> CreateAsync(Usuario usuario);
         Task<IEnumerable<Usuario>> GetAllAsync();
+        Task<(IEnumerable<Usuario> Items, int TotalCount)> GetPagedAsync(int page, int pageSize);
         Task<Usuario?> GetByIdAsync(Guid id);
         Task<Usuario?> GetByEmailAsync(string email);
         Task<Usuario?> GetByCPFAsync(string cpf);

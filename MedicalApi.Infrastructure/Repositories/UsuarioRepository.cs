@@ -19,6 +19,15 @@ namespace MedicalApi.Infrastructure.Repositories
             return await context.Usuarios.AsNoTracking().ToListAsync();
         }
 
+        public async Task<(IEnumerable<Usuario> Items, int TotalCount)> GetPagedAsync(int page, int pageSize){
+            
+            var skip = page * pageSize;
+            var usuarios = await context.Usuarios.Skip(skip).Take(pageSize)
+                                .AsNoTracking().ToListAsync();
+
+            return (usuarios, usuarios.Count);
+        }
+
         public async Task<Usuario?> GetByIdAsync(Guid id)
         {
             return await context.Usuarios.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
